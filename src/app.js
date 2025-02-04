@@ -17,6 +17,7 @@ function buscarSelecaoPorId(id){
 function buscarIndexSelecao(id){
   return selecoes.findIndex(selecao => selecao.id == id)
 }
+
 app.get('/', (req, res) => {  // toda vez ao fazer uma requiscao http precisa de request e do response
   res.send('NodeJS PF')
 })
@@ -29,16 +30,17 @@ app.get("/selecoes/:id", (req,res)=> {
 app.get("/selecoes/:id", (req,res)=> {
   res.json(buscarIndexSelecao(req.params.id))   // buscar um objeto json usando a funcao x e usando os paramentros de req por id
 })
+app.post("/selecoes",(req, res)=> {
+  selecoes.push(req.body)     //pegar o corpo da  requisicao
+  res.status(202).send("selecao cadastrada com sucesso")
+  })
 app.delete("/selecoes/:id", (req,res)=> {
   let index = buscarIndexSelecao(req.params.id)
  selecoes.splice(index,1) // cortar elemento pelo paramentro e qnt de cortas
  res.send(`selecao com id: ${req.params.id} exlcluida com sucesso`)
   
 })
-app.post("/selecoes",(req, res)=> {
-selecoes.push(req.body)     //pegar o corpo da  requisicao
-res.status(202).send("selecao cadastrada com sucesso")
-})
+
 app.put("/selecoes/:id", (req,res)=> {
   let  index = buscarIndexSelecao(req.params.id)
  selecoes[index].selecao =  req.body.selecao
